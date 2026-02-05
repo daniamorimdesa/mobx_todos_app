@@ -6,12 +6,11 @@ import "package:mobx/mobx.dart";
 part "todo.g.dart";
 
 // classe principal que combina a classe gerada com a classe de implementação
-// usando mixin do MobX para gerenciamento de estado reativo 
+// usando mixin do MobX para gerenciamento de estado reativo
 class Todo = TodoBase with _$Todo;
 
-// classe abstrata que define o estado e as ações do contador de dados 
+// classe abstrata que define o estado e as ações do contador de dados
 abstract class TodoBase with Store {
-
   TodoBase(this.description);
 
   // observable é usado para marcar variáveis que podem mudar de valor
@@ -19,7 +18,15 @@ abstract class TodoBase with Store {
 
   @observable
   String description = ""; // descrição da tarefa
-  
+
   @observable
   bool done = false; // status de conclusão da tarefa
+
+  // JSON
+  factory TodoBase.fromJson(Map<String, dynamic> json) {
+    return Todo(
+      json["description"] as String? ?? '',
+      done: json["done"] as bool? ?? false,
+    );
+  }
 }
