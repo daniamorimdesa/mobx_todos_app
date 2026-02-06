@@ -18,95 +18,85 @@ class ActionBar extends StatelessWidget {
       ), // bordas arredondadas do card
       child: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Observer(
-              builder: (_) {
-                final selections = VisibilityFilter.values
-                    .map((f) => f == list.filter)
-                    .toList(growable: false);
-
-                return Padding(
-                  padding: const EdgeInsets.only(top: 12, bottom: 8),
-                  child: SegmentedButton<VisibilityFilter>(
-                    segments: const [
-                      ButtonSegment(
-                        value: VisibilityFilter.all,
-                        label: Text(
-                          'ALL',
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            letterSpacing: -1,
-                          ),
-                        ),
-                      ),
-                      ButtonSegment(
-                        value: VisibilityFilter.pending,
-                        label: Text(
-                          'PENDING',
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            letterSpacing: -1,
-                          ),
-                        ),
-                      ),
-                      ButtonSegment(
-                        value: VisibilityFilter.completed,
-                        label: Text(
-                          'COMPLETED',
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            letterSpacing: -1,
-                          ),
-                        ),
-                      ),
-                    ],
-                    selected: {list.filter},
-                    onSelectionChanged: (set) => list.filter = set.first,
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 24),
-            Observer(
-              builder: (_) => OverflowBar(
-                spacing: 8,
-                alignment: MainAxisAlignment.center,
-                overflowAlignment: OverflowBarAlignment.center,
+        child: Observer(
+          builder: (_) {
+            return SizedBox(
+              height: 48,
+              child: Row(
                 children: [
-                  OutlinedButton(
-                    onPressed: list.canRemoveAllCompleted
-                        ? list.removeCompleted
-                        : null,
-                    child: const Text(
-                      'remove completed',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "Montserrat",
-                        letterSpacing: 1,
-                        fontSize: 12,
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => list.filter = VisibilityFilter.all,
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: list.filter == VisibilityFilter.all
+                            ? Theme.of(context).colorScheme.primaryContainer
+                            : null,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            bottomLeft: Radius.circular(24),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'ALL',
+                        style: TextStyle(
+                          fontFamily: "Montserrat",
+                          letterSpacing: -1,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),
-
-                  OutlinedButton(
-                    onPressed: list.canMarkAllCompleted
-                        ? list.markAllAsCompleted
-                        : null,
-                    child: const Text(
-                      'mark all completed',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "Montserrat",
-                        letterSpacing: 1,
-                        fontSize: 12,
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => list.filter = VisibilityFilter.pending,
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: list.filter == VisibilityFilter.pending
+                            ? Theme.of(context).colorScheme.primaryContainer
+                            : null,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ),
+                      ),
+                      child: const Text(
+                        'PENDING',
+                        style: TextStyle(
+                          fontFamily: "Montserrat",
+                          letterSpacing: -1,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => list.filter = VisibilityFilter.completed,
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: list.filter == VisibilityFilter.completed
+                            ? Theme.of(context).colorScheme.primaryContainer
+                            : null,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(24),
+                            bottomRight: Radius.circular(24),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'COMPLETED',
+                        style: TextStyle(
+                          fontFamily: "Montserrat",
+                          letterSpacing: -1,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

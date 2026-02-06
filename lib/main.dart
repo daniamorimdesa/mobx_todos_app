@@ -51,6 +51,11 @@ class MyApp extends StatelessWidget {
                 foregroundColor: Colors.white, // cor do texto da barra de navegação
               ),
 
+              bottomAppBarTheme: const BottomAppBarThemeData(
+                color: Color.fromARGB(255, 22, 22, 32), // mesma cor dos cards
+                elevation: 0,
+              ),
+
               // ============================
               // importante: Cards devem usar surface / surfaceVariant escuros
               // ============================
@@ -60,7 +65,7 @@ class MyApp extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 margin: const EdgeInsets.all(0),
-                color: const Color(0xFF0E1622),
+                color: const Color.fromARGB(255, 26, 39, 58),
               ),
               // ============================
               // texto: use onSurface em tons suaves

@@ -1,12 +1,13 @@
 // todos_page.dart: página principal da feature de Todos
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx_todos/core/theme/theme_store.dart';
 import 'package:mobx_todos/features/todos/presentation/widgets/action_bar.dart';
 import 'package:mobx_todos/features/todos/presentation/widgets/add_todo.dart';
 import 'package:mobx_todos/features/todos/presentation/widgets/description.dart';
 import 'package:mobx_todos/features/todos/presentation/widgets/todo_list_view.dart';
+import 'package:mobx_todos/features/todos/presentation/widgets/todos_bottom_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TodosPage extends StatelessWidget {
   const TodosPage({super.key});
@@ -19,32 +20,47 @@ class TodosPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: const Text(
-          'TODOS',
-          style: TextStyle(
-            // color: Colors.white, // cor do texto da barra de navegação
-            color: Colors.blueGrey,
-            fontSize: 24,
-            fontWeight: FontWeight.w300,
-            letterSpacing: -2,
-            fontFamily: 'Montserrat',
-          ),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'TO',
+              style: TextStyle(
+                color: Colors.blueGrey,
+                fontSize: 24,
+                fontWeight: FontWeight.w300,
+                letterSpacing: -2,
+                fontFamily: 'Montserrat',
+              ),
+            ),
+
+            Transform.translate(
+              offset: const Offset(-8, 1), // ajuste fino aqui
+              child: SvgPicture.asset(
+                'assets/logos/black-evil-cat-svgrepo-com.svg',
+                height: 26,
+                colorFilter: const ColorFilter.mode(
+                  Colors.blueGrey,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+
+            Transform.translate(
+              offset: const Offset(-16, 8), // ajuste fino aqui
+              child: const Text(
+                'DOS',
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w300,
+                  letterSpacing: -2,
+                  fontFamily: 'Montserrat',
+                ),
+              ),
+            ),
+          ],
         ),
-        // actions: [
-        //   Observer(
-        //     builder: (_) {
-        //       final isDark = themeStore.mode == ThemeMode.dark;
-        //       return Padding(
-        //         padding: const EdgeInsets.only(right: 24.0),
-        //         child: IconButton(
-        //           tooltip: isDark ? 'Light Mode' : 'Dark Mode',
-        //           onPressed: themeStore.toggle,
-        //           icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
-        //         ),
-        //       );
-        //     },
-        //   ),
-        // ],
       ),
       body: Center(
         child: Padding(
@@ -55,16 +71,14 @@ class TodosPage extends StatelessWidget {
               AddTodo(),
               SizedBox(height: 6),
               ActionBar(),
-              SizedBox(height: 22),
+              SizedBox(height: 12),
               Description(),
               Expanded(child: TodoListView()),
-              
             ],
           ),
-          
         ),
-        
       ),
+      bottomNavigationBar: const TodosBottomBar(),
     );
   }
 }

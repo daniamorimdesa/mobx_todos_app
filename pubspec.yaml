@@ -17,6 +17,8 @@ dependencies:
   json_annotation: ^4.10.0
   window_manager: ^0.3.8
   path_provider: ^2.1.4
+  flutter_svg: ^2.0.10
+  flutter_launcher_icons: ^0.14.4
 
 
 dev_dependencies:
@@ -30,4 +32,12 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/
+    - assets/logos/
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logos/logo-todos.png"
+
+
+    
