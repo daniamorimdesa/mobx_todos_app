@@ -101,57 +101,84 @@ mixin _$TodoList on TodoListBase, Store {
     });
   }
 
-  late final _$TodoListBaseActionController = ActionController(
-    name: 'TodoListBase',
+  late final _$isLoadingAtom = Atom(
+    name: 'TodoListBase.isLoading',
     context: context,
   );
 
   @override
-  void addTodo(String description) {
-    final _$actionInfo = _$TodoListBaseActionController.startAction(
-      name: 'TodoListBase.addTodo',
-    );
-    try {
-      return super.addTodo(description);
-    } finally {
-      _$TodoListBaseActionController.endAction(_$actionInfo);
-    }
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
   }
 
   @override
-  void removeTodo(Todo todo) {
-    final _$actionInfo = _$TodoListBaseActionController.startAction(
-      name: 'TodoListBase.removeTodo',
-    );
-    try {
-      return super.removeTodo(todo);
-    } finally {
-      _$TodoListBaseActionController.endAction(_$actionInfo);
-    }
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
   }
 
-  @override
-  void markAllAsCompleted() {
-    final _$actionInfo = _$TodoListBaseActionController.startAction(
-      name: 'TodoListBase.markAllAsCompleted',
-    );
-    try {
-      return super.markAllAsCompleted();
-    } finally {
-      _$TodoListBaseActionController.endAction(_$actionInfo);
-    }
-  }
+  late final _$initAsyncAction = AsyncAction(
+    'TodoListBase.init',
+    context: context,
+  );
 
   @override
-  void removeCompleted() {
-    final _$actionInfo = _$TodoListBaseActionController.startAction(
-      name: 'TodoListBase.removeCompleted',
+  Future<void> init() {
+    return _$initAsyncAction.run(() => super.init());
+  }
+
+  late final _$addTodoAsyncAction = AsyncAction(
+    'TodoListBase.addTodo',
+    context: context,
+  );
+
+  @override
+  Future<void> addTodo(String description) {
+    return _$addTodoAsyncAction.run(() => super.addTodo(description));
+  }
+
+  late final _$removeTodoAsyncAction = AsyncAction(
+    'TodoListBase.removeTodo',
+    context: context,
+  );
+
+  @override
+  Future<void> removeTodo(Todo todo) {
+    return _$removeTodoAsyncAction.run(() => super.removeTodo(todo));
+  }
+
+  late final _$markAllAsCompletedAsyncAction = AsyncAction(
+    'TodoListBase.markAllAsCompleted',
+    context: context,
+  );
+
+  @override
+  Future<void> markAllAsCompleted() {
+    return _$markAllAsCompletedAsyncAction.run(
+      () => super.markAllAsCompleted(),
     );
-    try {
-      return super.removeCompleted();
-    } finally {
-      _$TodoListBaseActionController.endAction(_$actionInfo);
-    }
+  }
+
+  late final _$removeCompletedAsyncAction = AsyncAction(
+    'TodoListBase.removeCompleted',
+    context: context,
+  );
+
+  @override
+  Future<void> removeCompleted() {
+    return _$removeCompletedAsyncAction.run(() => super.removeCompleted());
+  }
+
+  late final _$setDoneAsyncAction = AsyncAction(
+    'TodoListBase.setDone',
+    context: context,
+  );
+
+  @override
+  Future<void> setDone(Todo todo, bool value) {
+    return _$setDoneAsyncAction.run(() => super.setDone(todo, value));
   }
 
   @override
@@ -159,6 +186,7 @@ mixin _$TodoList on TodoListBase, Store {
     return '''
 todos: ${todos},
 filter: ${filter},
+isLoading: ${isLoading},
 pendingTodos: ${pendingTodos},
 completedTodos: ${completedTodos},
 hasCompletedTodos: ${hasCompletedTodos},

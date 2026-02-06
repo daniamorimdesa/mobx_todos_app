@@ -12,38 +12,49 @@ class TodoListView extends StatelessWidget {
     final list = context.read<TodoList>();
 
     return Observer(
-      builder: (_) => ListView.builder(
-        itemCount: list.visibleTodos.length,
-        itemBuilder: (_, index) {
-          final todo = list.visibleTodos[index];
-          return Observer(
-            builder: (_) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              child: Material(
-                color: const Color.fromARGB(255, 242, 243, 245),
-                borderRadius: BorderRadius.circular(14),
-                child: ListTile(
-                  leading: Checkbox(
-                    value: todo.done,
-                    onChanged: (v) => todo.done = v ?? false,
-                  ),
-                  title: Text(
-                    todo.description,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      decoration: todo.done ? TextDecoration.lineThrough : null,
+      builder: (_) {
+        if (list.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return ListView.builder(
+          itemCount: list.visibleTodos.length,
+          itemBuilder: (_, index) {
+            final todo = list.visibleTodos[index];
+            return Observer(
+              builder: (_) => Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                child: Material(
+                  color: const Color.fromARGB(255, 242, 243, 245),
+                  borderRadius: BorderRadius.circular(14),
+                  child: ListTile(
+                    leading: Checkbox(
+                      value: todo.done,
+                      onChanged: (v) => list.setDone(todo, v ?? false),
                     ),
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete_outline),
-                    onPressed: () => list.removeTodo(todo),
+                    title: Text(
+                      todo.description,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        decoration: todo.done
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      onPressed: () => list.removeTodo(todo),
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          },
+        );
+      },
     );
   }
 }

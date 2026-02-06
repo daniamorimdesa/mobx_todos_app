@@ -1,9 +1,10 @@
 // todo_list.dart: store de dados para a lista de tarefas (to-dos) usando MobX
 // gerencia o estado da lista de tarefas, incluindo a adição, remoção e filtragem de tarefas
-// store de domínio como use-case para a aplicação, encapsulando a lógica de negócios 
+// store de domínio como use-case para a aplicação, encapsulando a lógica de negócios
 //relacionada às tarefas
 
 import "package:mobx/mobx.dart";
+import "package:mobx_todos/features/todos/data/datasources/todos_file_storage.dart";
 import "package:mobx_todos/features/todos/domain/entities/todo.dart";
 
 part "todo_list.g.dart";
@@ -16,6 +17,12 @@ class TodoList = TodoListBase with _$TodoList;
 abstract class TodoListBase with Store {
   // ObservableList é uma lista reativa do MobX em que mudanças são observadas e podem disparar atualizações na interface do usuário
 
+  final TodosFileStorage _storage = TodosFileStorage();
+
+  TodoListBase() {
+    init();
+  }
+
   // lista observável de tarefas
   @observable
   ObservableList<Todo> todos = ObservableList<Todo>();
@@ -23,6 +30,9 @@ abstract class TodoListBase with Store {
   // filtro de visibilidade observável
   @observable
   VisibilityFilter filter = VisibilityFilter.all; // padrão: mostrar todas as tarefas
+
+  @observable
+  bool isLoading = true;
 
   // lista de tarefas pendentes (não concluídas)
   @computed
@@ -87,29 +97,52 @@ abstract class TodoListBase with Store {
       hasPendingTodos && filter != VisibilityFilter.completed;
 
   // ações para modificar o estado da lista de tarefas
+
   @action
-  void addTodo(String description) {
+  Future<void> init() async {
+    isLoading = true;
+    todos = await _storage.loadTodos();
+    isLoading = false;
+  }
+
+  // persiste a lista de tarefas no armazenamento
+  Future<void> _persist() => _storage.saveTodos(todos);
+
+  // adiciona uma nova tarefa com a descrição fornecida
+  @action
+  Future<void> addTodo(String description) async {
     final todo = Todo(description);
     todos.add(todo);
+    await _persist();
   }
 
   // remove uma tarefa específica
   @action
-  void removeTodo(Todo todo) {
+  Future<void> removeTodo(Todo todo) async {
     todos.remove(todo);
+    await _persist();
   }
 
   // marca todas as tarefas como concluídas
   @action
-  void markAllAsCompleted() {
+  Future<void> markAllAsCompleted() async {
     for (final todo in todos) {
       todo.done = true;
     }
+    await _persist();
   }
 
   // remove todas as tarefas concluídas
   @action
-  void removeCompleted() {
+  Future<void> removeCompleted() async {
     todos.removeWhere((todo) => todo.done == true);
+    await _persist();
+  }
+
+  // define o status de conclusão de uma tarefa específica
+  @action
+  Future<void> setDone(Todo todo, bool value) async {
+    todo.done = value;
+    await _persist();
   }
 }
