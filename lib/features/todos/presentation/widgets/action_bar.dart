@@ -10,6 +10,10 @@ class ActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final list = context.read<TodoList>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final selectedColor = isDark 
+        ? const Color.fromARGB(255, 12, 16, 27)  // azul acinzentado profundo para tema escuro
+        : const Color.fromARGB(255, 215, 230, 246); // azul acinzentado claro para tema claro
 
     return Card(
       elevation: 0,
@@ -29,7 +33,7 @@ class ActionBar extends StatelessWidget {
                       onPressed: () => list.filter = VisibilityFilter.all,
                       style: OutlinedButton.styleFrom(
                         backgroundColor: list.filter == VisibilityFilter.all
-                            ? Theme.of(context).colorScheme.primaryContainer
+                            ? selectedColor
                             : null,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -53,7 +57,7 @@ class ActionBar extends StatelessWidget {
                       onPressed: () => list.filter = VisibilityFilter.pending,
                       style: OutlinedButton.styleFrom(
                         backgroundColor: list.filter == VisibilityFilter.pending
-                            ? Theme.of(context).colorScheme.primaryContainer
+                            ? selectedColor
                             : null,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero,
@@ -74,7 +78,7 @@ class ActionBar extends StatelessWidget {
                       onPressed: () => list.filter = VisibilityFilter.completed,
                       style: OutlinedButton.styleFrom(
                         backgroundColor: list.filter == VisibilityFilter.completed
-                            ? Theme.of(context).colorScheme.primaryContainer
+                            ? selectedColor
                             : null,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(

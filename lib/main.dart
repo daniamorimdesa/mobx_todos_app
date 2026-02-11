@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                 centerTitle: true,
                 elevation: 0,
                 backgroundColor: Colors.transparent, // cor da barra de navegação
-                foregroundColor: Colors.white, // cor do texto da barra de navegação
+                foregroundColor: Color.fromARGB(255, 255, 255, 255), // cor do texto da barra de navegação
               ),
 
               bottomAppBarTheme: const BottomAppBarThemeData(
@@ -122,6 +122,11 @@ class MyApp extends StatelessWidget {
                   horizontal: 12,
                   vertical: 14,
                 ),
+              ),
+              
+              // Cor do texto digitado nos TextFields
+              textSelectionTheme: TextSelectionThemeData(
+                cursorColor: Colors.white,
               ),
 
               // icon default

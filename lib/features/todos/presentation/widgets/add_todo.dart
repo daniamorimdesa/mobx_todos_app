@@ -48,6 +48,9 @@ class _AddTodoState extends State<AddTodo> {
                 controller: _textController,
                 textInputAction: TextInputAction.done,
                 onSubmitted: (_) => _submit(context),
+                style: const TextStyle(
+                  color: Colors.black87,
+                ),
                 decoration: InputDecoration(
                   hintText: 'Add a todo...',
                   hintStyle: TextStyle(
@@ -56,16 +59,14 @@ class _AddTodoState extends State<AddTodo> {
                     letterSpacing: 3,
                   ),
                   isDense: true,
-                  prefixIcon: const Icon(Icons.add_task_outlined),
+                  prefixIcon: const Icon(Icons.add_task_outlined, color: Colors.black54),
                   suffixIcon: IconButton(
                     tooltip: 'Add',
                     onPressed: () => _submit(context),
-                    icon: const Icon(Icons.add),
+                    icon: const Icon(Icons.add, color: Colors.black54),
                   ),
                   filled: true,
-                  fillColor: const Color(
-                    0xFFF2F3F5,
-                  ), // cor de fundo do campo de texto
+                  fillColor: const Color(0xFFF2F3F5),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(24),
                     borderSide: BorderSide.none,
