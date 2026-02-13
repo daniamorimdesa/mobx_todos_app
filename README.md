@@ -1,4 +1,4 @@
-# 📝 MobX Todos App
+# MobX Todos App
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.10.7+-02569B?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.10.7+-0175C2?logo=dart)
