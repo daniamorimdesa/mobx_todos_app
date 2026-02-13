@@ -7,7 +7,7 @@
 
 Aplicação de gerenciamento de tarefas (To-Do List) desenvolvida com **Flutter** e **MobX**, seguindo os princípios de **Clean Architecture** e organização por **features**.
 
-![Visual Identity](assets\logos\visual_identity.png)
+![Visual Identity](assets/logos/visual_identity.png)
 
 
 ## ✨ Características
